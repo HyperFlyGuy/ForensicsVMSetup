@@ -1,0 +1,55 @@
+|Name | DownloadURL | Purpose |
+| -- | -- | --
+|Cylr-win | https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_win-x64.zip | The CyLR tool collects forensic artifacts from hosts with NTFS file systems quickly, securely and minimizes impact to the host.
+|Cylr-mac | https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_osx-x64.zip | The CyLR tool collects forensic artifacts from hosts with NTFS file systems quickly, securely and minimizes impact to the host.
+|Cylr-linux | https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_linux-x64.zip | The CyLR tool collects forensic artifacts from hosts with NTFS file systems quickly, securely and minimizes impact to the host.
+|4n6 time
+|Magnet EDD
+|Magnet IEF
+|Magnet Acquire
+|MagnetRAMCapture
+|Magnet Web page saver
+|Encase
+|esecarve
+|event log explorer
+|one drive explorer
+|FTK 
+|FTK Imager
+|MFT View
+|MiTec Structured Storage View
+|MiTec Windows Registry Analyzer
+|RegDecoder
+|RegDecoderLive
+|Registry Decoder
+|rekall forensics
+|shadow kit
+|shellbags python parser
+|simple file parser
+|skype parser
+|spider3
+|spider4
+|SPL Viewer
+|SQLIte Deleted Records Parser
+|srum dump
+|ThumbCache Viewer
+|vsc toolset
+|Woanware Autorunner
+|Woanware ChromeForensics
+|Woanware ESEDbViewer
+|Woanware EXE Finder
+|Woanware FFSessionRestoreExt
+|Woanware FireFoxForensics
+|Woanware Forensic User Info
+|Woanware Free D/L Mgr 4n6
+|Woanware JavaIDX Parser
+|Woanware JumpLister
+|Woanware Link Analyser
+|Woanware OperaForensics
+|Woanware Prefetch Forensics
+|Woanware RegRipperRunner
+|Woanware ShimCache Parser
+|Woanware Snortbert
+|Woanware Target Analyser
+|Woanware USB Device Forensics
+|Wfa4e Tools
+|Volatility Plugins
