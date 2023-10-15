@@ -1,55 +1,40 @@
-|Name | DownloadURL | Purpose |
-| -- | -- | --
-|Cylr-win | https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_win-x64.zip | The CyLR tool collects forensic artifacts from hosts with NTFS file systems quickly, securely and minimizes impact to the host.
-|Cylr-mac | https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_osx-x64.zip | The CyLR tool collects forensic artifacts from hosts with NTFS file systems quickly, securely and minimizes impact to the host.
-|Cylr-linux | https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_linux-x64.zip | The CyLR tool collects forensic artifacts from hosts with NTFS file systems quickly, securely and minimizes impact to the host.
-|4n6 time
-|Magnet EDD
-|Magnet IEF
-|Magnet Acquire
-|MagnetRAMCapture
-|Magnet Web page saver
-|Encase
-|esecarve
-|event log explorer
-|one drive explorer
-|FTK 
-|FTK Imager
-|MFT View
-|MiTec Structured Storage View
-|MiTec Windows Registry Analyzer
-|RegDecoder
-|RegDecoderLive
-|Registry Decoder
-|rekall forensics
-|shadow kit
-|shellbags python parser
-|simple file parser
-|skype parser
-|spider3
-|spider4
-|SPL Viewer
-|SQLIte Deleted Records Parser
-|srum dump
-|ThumbCache Viewer
-|vsc toolset
-|Woanware Autorunner
-|Woanware ChromeForensics
-|Woanware ESEDbViewer
-|Woanware EXE Finder
-|Woanware FFSessionRestoreExt
-|Woanware FireFoxForensics
-|Woanware Forensic User Info
-|Woanware Free D/L Mgr 4n6
-|Woanware JavaIDX Parser
-|Woanware JumpLister
-|Woanware Link Analyser
-|Woanware OperaForensics
-|Woanware Prefetch Forensics
-|Woanware RegRipperRunner
-|Woanware ShimCache Parser
-|Woanware Snortbert
-|Woanware Target Analyser
-|Woanware USB Device Forensics
-|Wfa4e Tools
-|Volatility Plugins
+Name | DownloadURL | Purpose | 
+ -- | -- | --|
+Cylr-win | https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_win-x64.zip | The CyLR tool collects forensic artifacts from hosts with NTFS file systems quickly, securely and minimizes impact to the host.|
+Cylr-mac | https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_osx-x64.zip | The CyLR tool collects forensic artifacts from hosts with NTFS file systems quickly, securely and minimizes impact to the host.|
+Cylr-linux | https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_linux-x64.zip | The CyLR tool collects forensic artifacts from hosts with NTFS file systems quickly, securely and minimizes impact to the host.|
+MiTec Structured Storage View | http://www.mitec.cz/Downloads/SSView.zip | This tool allows completely manage any MS OLE Structured Storage based file. It supports Codec plugins|
+MiTec Windows Registry Analyzer | http://www.mitec.cz/Downloads/WRR.zip | This tool allows an enhanced view of the windows registry|
+SPL Viewer | https://www.lvbprint.de/files/splviewer/SPLView64.zip | View SPL files (printed files)|
+vsc toolset | https://df-stream.com/download/318/ | Parse and copy out files from multiple Volume Shadow Copies.  This tool requires many dependencies, as it is a GUI that sits on top of a host of other tools to do its job.|
+SQLIte Deleted Records Parser |https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_GUI.zip| Recover SQLite Deleted Records|
+ThumbCache Viewer |https://github.com/thumbcacheviewer/thumbcacheviewer/releases/download/v1.0.3.9/thumbcache_viewer_64.zip| Thumbcache Viewer allows you to extract thumbnail images from the thumbcache_*.db and iconcache_*.db database files found on Windows Vista, Windows 7, Windows 8, and Windows 8.1. This program is a GUI executable and is written in C/C++|
+Woanware RegRipperRunner |https://github.com/woanware/RegRipperRunner/raw/master/Release/RegRipperRunner.v.1.0.3.zip| --|
+Git Clones|--|--|
+one drive explorer |https://github.com/Beercow/OneDriveExplorer.git| OneDriveExplorer is a command line and GUI based application for reconstructing the folder structure of OneDrive from the <UserCid>.dat and <UserCid>.dat.previous file. |
+shellbags python parser | https://github.com/williballenthin/shellbags.git |A Python tool for parsing Shellbags|
+skype parser | https://github.com/TheAlbatrossCodes/skype-parser.git | --|
+srum dump | https://github.com/MarkBaggett/srum-dump.git | This program will create an excel spreadsheet containing forensics artifacts contained the SRUM (System Resource Utilization Manager) database.|
+Woanware Autorunner |https://github.com/woanware/autorunner.git| --|
+Woanware Reg-Entropy-Scanner |https://github.com/woanware/reg-entropy-scanner.git| --|
+Woanware Forensic User Info |https://github.com/woanware/ForensicUserInfo.git| --|
+Woanware JumpLister |https://github.com/woanware/JumpLister.git| --|
+ShimCache Parser |https://github.com/mandiant/ShimCacheParser.git| --|
+Woanware USB Device Forensics |https://github.com/woanware/usbdeviceforensics.git| --|
+Volatility distrom | https://github.com/gdabah/distorm.git | diStorm3 is really a decomposer, which means it takes an instruction and returns a binary structure which describes it rather than static text, which is great for advanced binary code analysis.|
+Volatility Twitter / Facebook Plugins |https://github.com/jeffbryner/volatilityPlugins.git| Plugins for parsing Twitter and Facebook in memory images using Volatility|
+Manual Install|--|--|
+Magnet EDD | http://www.magnetforensics.com/encrypted-disk-detector-a-free-digital-forensics-tool/ | A forensic tool to extract records that originate from the Microsoft ESE (Extensible Storage Engine) database. |
+Magnet Response | https://www.magnetforensics.com/resources/magnet-response/ | Magnet Response is the all in one acquisiton tool, similar to CyLR but will include RAM|
+Magnet Acquire | https://www.magnetforensics.com/resources/magnet-acquire/ | Magnet ACQUIRE lets digital forensic examiners quickly and easily acquire forensic images of any iOS or Android device, hard drive, and removable media — and is available at no cost to the forensic community.|
+MagnetRAMCapture | https://www.magnetforensics.com/resources/magnet-ram-capture/ | MAGNET RAM Capture is a free imaging tool designed to capture the physical memory of a suspect’s computer|
+Magnet Web page saver | https://www.magnetforensics.com/resources/web-page-saver/ | MAGNET Web Page Saver (v3.3 released September 17th, 2020) is a perfect tool for capturing how web pages look at a specific point in time.|
+event log explorer | https://eventlogxp.com/download.php | Program to parse event logs - free for home use|
+FTK Imager | https://go.exterro.com/l/43312/2023-05-03/fc4b78 | Free disk imaging and image mounting tool|
+Wfa4e Tools | https://uce42d1db0becb7b5814a015e05e.dl.dropboxusercontent.com/cd/0/get/CFr56QnkcxW-vLdvwlkXDebbS14KFveWL_IsdPdbHo1CzogfGcYHdbVAw8bTUIBhetpuPg8AcOtjbhBi8cOWlSFqdOyu1HlqxUjtZSQsxD014aMPidpswrOstvg1hXT8vZYf_MiJXiX5lQ8iopTge7oTnFRe6yZ9mzBpQEmlll42QYFaVpf9Me8mksGdcIWvfz4/file?_download_id=5484779257715322426652457773979405576209373613541426029230980554&_notify_domain=www.dropbox.com&dl=1 | Set of Tools from Harlan Carvey's Windows Forensics Analysis 4 Book|
+Straight Executable|--|--|
+SAMInside | https://us.softradar.com/static/products/saminside/distr/2.7.0.1/saminside_softradar-com.exe | SAMInside is designated for the recovery of Windows NT, Windows 2000, Windows XP, Windows 2003, Windows Vista, Windows 7 user passwords.|
+Simple File Parser | https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/simple-file-parser/Simple%20File%20Parser%20v1.5.1.exe | SFP is extremely light-weight (it is less than 300KB) easy to use Windows-based GUI tool for parsing multiple Windows forensic artefacts, and currently supports the parsing of link, prefetch and INDX ($I30) artifacts and allows the user to easily export the information to CSV format for a more detailed analysis|
+Volatility Stand Alone Exe | https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/volatility/volatility-2.3.1.standalone.exe | Memory Forensics tool, stand alone version that doesn't require a Python Installation.  Not as fast as Python version but good for beginners.|
+SQLIte Deleted Records Parser |https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_CLI.exe| Recover SQLite Deleted Records|
+SQLIte Deleted Records Parser |https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_v1.1.py| Recover SQLite Deleted Records|
