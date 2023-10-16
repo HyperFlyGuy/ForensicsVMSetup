@@ -1,67 +1,115 @@
 
-Set-ExecutionPolicy Bypass -Scope Process -Force
-#Checks to make sure our install path exists. If not it will create it.
 $installpath = 'C:\Program Files\Forensic Tools\'
-If (!(test-path $installpath))
-{
-    New-Item -ItemType Directory -Path $installpath
-    New-Item -ItemType Directory -Path $installpath\Acquisiton
-    New-Item -ItemType Directory -Path $installpath\Parsing
-    New-Item -ItemType Directory -Path $installpath\Analysis
-    New-Item -ItemType Directory -Path $installpath\Reporting
-    New-Item -ItemType Directory -Path $installpath\misc
-    New-Item -ItemType Directory -Path $installpath\Delete
-}
+$index=Import-Csv -path $PSScriptRoot\ExtraToolsIndex.txt
+function Show-System {
+    # Ensure execution policy is unrestricted
+    Write-Host "[+] Checking if execution policy is unrestricted..."
+    if ((Get-ExecutionPolicy).ToString() -ne "Unrestricted") {
+        Write-Host "`t[!] Please run this script after updating your execution policy to unrestricted" -ForegroundColor Red
+        Write-Host "`t[-] Hint: Set-ExecutionPolicy Unrestricted" -ForegroundColor Yellow
+        Read-Host "Press any key to exit..."
+        exit 1
+    } else {
+        Write-Host "`t[+] Execution policy is unrestricted" -ForegroundColor Green
+        Start-Sleep -Milliseconds 500
+    }
 
-if(!(Test-Path -path "$env:ProgramData\Chocolatey")){
-#Installs Chocolatey package manager if it is not installed
-Invoke-Expression((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-Install-ChocPackages
-}
-else{
-Install-ChocPackages
-}
+    # Check if Tamper Protection is disabled
+    Write-Host "[+] Checking if Windows Defender Tamper Protection is disabled..."
+    try {
+        $tpEnabled = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection" -ErrorAction Stop
+        if ($tpEnabled.TamperProtection -eq 5) {
+            Write-Host "`t[!] Please disable Tamper Protection, reboot, and rerun installer" -ForegroundColor Red
+            Write-Host "`t[+] Hint: https://support.microsoft.com/en-us/windows/prevent-changes-to-security-settings-with-tamper-protection-31d51aaa-645d-408e-6ce7-8d7f8e593f87" -ForegroundColor Yellow
+            Write-Host "`t[+] Hint: https://www.tenforums.com/tutorials/123792-turn-off-tamper-protection-windows-defender-antivirus.html" -ForegroundColor Yellow
+            Write-Host "`t[+] Hint: https://github.com/jeremybeaume/tools/blob/master/disable-defender.ps1" -ForegroundColor Yellow
+            Write-Host "`t[+] Hint: https://lazyadmin.nl/win-11/turn-off-windows-defender-windows-11-permanently/" -ForegroundColor Yellow
+            Write-Host "`t[+] You are welcome to continue, but may experience errors downloading or installing packages" -ForegroundColor Yellow
+            Write-Host "`t[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
+            $response = Read-Host
+            if ($response -notin @("y","Y")) {
+                exit 1
+            }
+        } else {
+            Write-Host "`t[+] Tamper Protection is disabled" -ForegroundColor Green
+            Start-Sleep -Milliseconds 500
+        }
+    } catch {
+        Write-Host "`t[+] Tamper Protection is either not enabled or not detected" -ForegroundColor Yellow
+        Write-Host "`t[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
+        $response = Read-Host
+        if ($response -notin @("y","Y")) {
+            exit 1
+        }
+        Start-Sleep -Milliseconds 500
+    }
 
-
-
-function Install-ChocPackages {
-    #Establishing arrays for the  Chocolatey Packages
-    $Packages = 'chocolatey-core.extension', 'chocolatey-compatibility.extension', 'chocolatey-dotnetfx.extension', 'dotnet4.5', 'dotnet4.6.1', 'flashplayeractivex', 'flashplayerplugin', 'javaruntime', 'adobeair', 'activeperl', 'adobereader', 'googlechrome', 'firefox', 'notepadplusplus.install', 'python', '7zip.install', 'libreoffice-fresh', 'greenshot', 'openvpn', 'obs-studio.install', 'putty', 'access-data-registry-viewer', 'nirlauncher', 'photorec', 'hindsight-gui', 'exiftool', 'hxd', 'sysinternals ', 'jq', 'hindsight', 'hindsight-gui', 'wireshark', 'tableau-imager', 'hibernation-recon', 'arsenalimagemounter', 'dcode', 'bulk-extractor', 'aurora-ir', 'volatility3', 'mft2csv', 'logfileparser', 'ileapp-gui', 'usnjrnl2csv', 'aleapp', 'sleuthkit', 'radare2', 'autopsy', 'defraggler', 'esedatabaseview', 'free-pst-reader', 'free-ost-reader', 'logparser', 'plaso', 'timelineexplorer', 'winprefetchview', 'regripper', 'shadowexplorer', 'sqlitebrowser', 'strings', 'thumbs-viewer', 'uniextract', 'unxutils', 'userassistview', 'cyberchef', 'yara'
-    #Begins install of Chocolatey packages
-    foreach ($elem in $Packages) {
-        choco install $elem  --yes --ignore-checksum
+    # Check if Defender is disabled
+    Write-Host "[+] Checking if Windows Defender service is disabled..."
+    $defender = Get-Service -Name WinDefend -ea 0
+    if ($null -ne $defender) {
+        if ($defender.Status -eq "Running") {
+            Write-Host "`t[!] Please disable Windows Defender through Group Policy, reboot, and rerun installer" -ForegroundColor Red
+            Write-Host "`t[+] Hint: https://stackoverflow.com/questions/62174426/how-to-permanently-disable-windows-defender-real-time-protection-with-gpo" -ForegroundColor Yellow
+            Write-Host "`t[+] Hint: https://www.windowscentral.com/how-permanently-disable-windows-defender-windows-10" -ForegroundColor Yellow
+            Write-Host "`t[+] Hint: https://github.com/jeremybeaume/tools/blob/master/disable-defender.ps1" -ForegroundColor Yellow
+            Write-Host "`t[+] You are welcome to continue, but may experience errors downloading or installing packages" -ForegroundColor Yellow
+            Write-Host "`t[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
+            $response = Read-Host
+            if ($response -notin @("y","Y")) {
+                exit 1
+            }
+        } else {
+            Write-Host "`t[+] Defender is disabled" -ForegroundColor Green
+            Start-Sleep -Milliseconds 500
+        }
     }
 }
-
-function Install-ZippedPrograms{
-    #Downloads all the zip files 
-    $counter=0
-    $ZipProgramsName = 'Cylr-win', 'Cylr-mac', 'Cylr-linux', 'MiTec Structured Storage View', 'MiTec Windows Registry Analyzer', 'SPL Viewer', 'vsc toolset', 'SQLIte Deleted Records Parser', 'ThumbCache Viewer', 'Woanware RegRipperRunner' 
-    $ZipPrograms = 'https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_win-x64.zip', 'https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_osx-x64.zip', 'https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_linux-x64.zip', 'http://www.mitec.cz/Downloads/SSView.zip', 'http://www.mitec.cz/Downloads/WRR.zip', 'https://www.lvbprint.de/files/splviewer/SPLView64.zip', 'https://df-stream.com/download/318/', 'https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_GUI.zip', 'https://github.com/thumbcacheviewer/thumbcacheviewer/releases/download/v1.0.3.9/thumbcache_viewer_64.zip', 'https://github.com/woanware/RegRipperRunner/raw/master/Release/RegRipperRunner.v.1.0.3.zip'
-    foreach($elem in $ZipPrograms){
-        $FolderName = $ZipProgramsName[$counter]
-        Invoke-WebRequest -Uri $ZipPrograms[$counter] -outfile "$installpath\Delete\$counter.zip"
-        Expand-Archive -Path "$installpath\Delete\$counter.zip" -DestinationPath $installpath\$FolderName
-        $counter++
+function New-FileStructure {
+    #Checks to make sure our install path exists. If not it will create it.
+    If (!(test-path $installpath))
+    {
+        New-Item -ItemType Directory -Path $installpath
+        New-Item -ItemType Directory -Path $installpath\Acquisiton
+        New-Item -ItemType Directory -Path $installpath\Parsing
+        New-Item -ItemType Directory -Path $installpath\Analysis
+        New-Item -ItemType Directory -Path $installpath\Reporting
+        New-Item -ItemType Directory -Path $installpath\misc
+        New-Item -ItemType Directory -Path $installpath\Delete
+    } 
+}
+function Get-Programs {
+    foreach($obj in $index)
+    {
+        if ($obj.Type -eq "chocolatey") {
+            #Installs Chocolatey package manager if it is not installed then installs the proper packages
+            if(!(Test-Path -path "$env:ProgramData\Chocolatey\choco.exe")){
+                Invoke-Expression((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+                choco install $obj.Name  --yes --ignore-checksum
+                }
+                else{
+                choco install $obj.Name  --yes --ignore-checksum
+                }
+    
+        }
+        elseif ($obj.Type -eq "zip"){
+        $dest = 'C:\Program Files\Forensic Tools\' + $obj.Name
+        Invoke-WebRequest -Uri $obj.DownloadURL -outfile "$dest.zip"
+        Expand-Archive -Path "$dest.zip" -DestinationPath $dest
+        Remove-Item -Path "$dest.zip"
+        }   
+        elseif ($obj.Type -eq "exe") {
+        $dest = 'C:\Program Files\Forensic Tools\' + $obj.Name
+        Invoke-WebRequest -Uri $obj.DownloadURL -OutFile "$dest.exe"
+        }
+        elseif ($obj.Type -eq "git") {
+        $dest = 'C:\Program Files\Forensic Tools\' + $obj.Name
+        git clone $obj.DownloadURL $dest
+        }
+        elseif ($obj.Type -eq "manual") {
+        Write-Host "all is good"
+        }
     }
-    }
-function Install-GitPrograms{
-    $GitCloneFolderNames = 'one drive explorer', 'shellbags python parser', 'skype parser', 'srum dump', 'Woanware Autorunner', 'Woanware Reg-Entropy-Scanner', 'Woanware Forensic User Info', 'Woanware JumpLister', 'ShimCache Parser', 'Woanware USB Device Forensics', 'Volatility distrom', 'Volatility Twitter Facebook Plugins' 
-    $GitClonePrograms = 'https://github.com/Beercow/OneDriveExplorer.git', 'https://github.com/williballenthin/shellbags.git', 'https://github.com/TheAlbatrossCodes/skype-parser.git', 'https://github.com/MarkBaggett/srum-dump.git', 'https://github.com/woanware/autorunner.git', 'https://github.com/woanware/reg-entropy-scanner.git', 'https://github.com/woanware/ForensicUserInfo.git', 'https://github.com/woanware/JumpLister.git', 'https://github.com/mandiant/ShimCacheParser.git', 'https://github.com/woanware/usbdeviceforensics.git', 'https://github.com/gdabah/distorm.git', 'https://github.com/jeffbryner/volatilityPlugins.git'
-    $counter = 0
-    foreach($elem in $GitClonePrograms){
-        $FolderName= $installpath + $GitCloneFolderNames[$counter] 
-        git clone $GitClonePrograms[$counter] $FolderName
-        $counter++
-    }
-    }
-
-function Install-ExePrograms{
-    $ExeProgramsNames = 'SAMInside.exe', 'SimpleFileParser.exe', 'volatility-2.3.1.standalone.exe', 'sqlparse_CLI.exe', 'sqlparse_v1.1.py'
-    $ExePrograms = 'https://us.softradar.com/static/products/saminside/distr/2.7.0.1/saminside_softradar-com.exe', 'https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/simple-file-parser/Simple%20File%20Parser%20v1.5.1.exe', 'https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/volatility/volatility-2.3.1.standalone.exe', 'https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_CLI.exe', 'https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_v1.1.py'
-    $counter=0
-    foreach($elem in $ExePrograms){ 
-        Invoke-WebRequest -Uri $ExePrograms[$counter] -OutFile $installpath\$ExeProgramsNames[$counter]
-        $counter++
-    }
-    }    
+}
+New-FileStructure
+Get-Programs
