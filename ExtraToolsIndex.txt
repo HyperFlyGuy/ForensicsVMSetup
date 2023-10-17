@@ -20,7 +20,6 @@ greenshot,chocolatey,--,--
 openvpn,chocolatey,--,--
 obs-studio.install,chocolatey,--,--
 putty,chocolatey,--,--
-access-data-registry-viewer,chocolatey,--,--
 nirlauncher,chocolatey,--,--
 photorec,chocolatey,--,--
 hindsight-gui,chocolatey,--,--
@@ -31,7 +30,6 @@ jq,chocolatey,--,--
 hindsight,chocolatey,--,--
 hindsight-gui,chocolatey,--,--
 wireshark,chocolatey,--,--
-tableau-imager,chocolatey,--,--
 hibernation-recon,chocolatey,--,--
 arsenalimagemounter,chocolatey,--,--
 dcode,chocolatey,--,--
@@ -48,14 +46,9 @@ radare2,chocolatey,--,--
 autopsy,chocolatey,--,--
 defraggler,chocolatey,--,--
 esedatabaseview,chocolatey,--,--
-free-pst-reader,chocolatey,--,--
-free-ost-reader,chocolatey,--,--
 logparser,chocolatey,--,--
-plaso,chocolatey,--,--
 timelineexplorer,chocolatey,--,--
 winprefetchview,chocolatey,--,--
-regripper,chocolatey,--,--
-shadowexplorer,chocolatey,--,--
 sqlitebrowser,chocolatey,--,--
 strings,chocolatey,--,--
 thumbs-viewer,chocolatey,--,--

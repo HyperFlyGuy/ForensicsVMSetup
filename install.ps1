@@ -80,82 +80,61 @@ function New-FileStructure {
     } 
     else
     {
-        Write-Host "Your install path is: " + $installpath
+        Write-Host "Your install path is: $installpath"
+    }
+    if (-not (Test-Path -Path "$env:ProgramData\Chocolatey\choco.exe")) {
+        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    }
+    else{
+        Write-Host "Chocolatey is installed"
     }
 }
-
 function Install-Program {
     param (
-        [string]$Name,
-        [string]$Type,
-        [string]$Category,
-        [string]$DownloadURL
+        $Name,
+        $Type,
+        $Category,
+        $DownloadURL
     )
     $dest = 'C:\Program Files\Forensic Tools\' + $Category
-    switch ($Type) {
-        "chocolatey" {
-            if (-not (Test-Path -Path "$env:ProgramData\Chocolatey\choco.exe")) {
-                Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-            }
-            choco install $Name --yes --ignore-checksum
-        }
-        "zip" {
+    switch ($Type) 
+    {
+        'chocolatey' {choco install $Name --yes --ignore-checksum}
+        'zip' {
             Invoke-WebRequest -Uri $DownloadURL -OutFile "$dest.zip"
             Expand-Archive -Path "$dest.zip" -DestinationPath $dest
             Remove-Item -Path "$dest.zip"
         }
-        "exe" {
-            Invoke-WebRequest -Uri $DownloadURL -OutFile "$dest.exe"
-        }
-        "git" {
-            git clone $DownloadURL $dest
-        }
-        "manual" {
-            Write-Host "Installation for $Name is manual."
-        }
-        default {
-            Write-Warning "Unsupported program type: $Type"
-        }
+        'exe' {Invoke-WebRequest -Uri $DownloadURL -OutFile "$dest.exe"}
+        'git' {git clone $DownloadURL $dest}
+        'manual' {Write-Host "Installation for $Name is manual."}
+        default {Write-Warning "Unsupported program type: $Type"}
     }
 }
 
-
 function Get-Programs {
-    param (
-        [array]$Programs
-    )
-
-    $runspacePool = [runspacefactory]::CreateRunspacePool(1, [Environment]::ProcessorCount)
-    $runspacePool.Open()
-
-    $jobs = @()
-
-    foreach ($program in $Programs) {
-        $job = [PSCustomObject]@{
-            Program = $program
-            Runspace = [powershell]::Create()
-        }
-        $job.Runspace.RunspacePool = $runspacePool
-        $scriptBlock = {
-            param ($program)
-            Install-Program -Name $program.Name -Type $program.Type -DownloadURL $program.DownloadURL -Category $program.Category
-        }
-        $job.Runspace.AddScript($scriptBlock).AddArgument($program)
-        $jobs += $job
+        param (
+        $program
+        )
+    $dest = 'C:\Program Files\Forensic Tools\' + $Category
+    $counter=0
+     foreach($elem in $program){
+         switch ($program.Type[$counter]) 
+         {
+             'chocolatey' {choco install $program.Name[$counter] --yes --ignore-checksum}
+             'zip' {
+                 Invoke-WebRequest -Uri $program.DownloadURL[$counter] -OutFile "$dest.zip"
+                 Expand-Archive -Path "$dest.zip" -DestinationPath $dest
+                 Remove-Item -Path "$dest.zip"
+             }
+             'exe' {Invoke-WebRequest -Uri $program.DownloadURL[$counter] -OutFile "$dest.exe"}
+             'git' {git clone $program.DownloadURL[$counter] $dest}
+             'manual' {Write-Host "Installation for $program.Name[$counter] is manual."}
+             default {Write-Warning "Unsupported program type: $program.Type[$counter]"}
+         }
+         $counter++
     }
-
-    $jobs | ForEach-Object {
-        $_.Runspace.BeginInvoke()
     }
-
-    $jobs | ForEach-Object {
-        $_.Runspace.EndInvoke($_.Runspace)
-        $_.Runspace.Dispose()
-    }
-
-    $runspacePool.Close()
-    $runspacePool.Dispose()
- }
 
 Show-System
 New-FileStructure
