@@ -1,6 +1,5 @@
 
-$installpath = 'C:\Program Files\Forensic Tools\'
-$index=Import-Csv -path $PSScriptRoot\ExtraToolsIndex.txt
+$Index=Import-Csv -path $PSScriptRoot\ExtraToolsIndex.txt
 function Show-System {
     # Ensure execution policy is unrestricted
     Write-Host "[+] Checking if execution policy is unrestricted..."
@@ -42,6 +41,7 @@ function Show-System {
             exit 1
         }
         Start-Sleep -Milliseconds 500
+        write-host "check done"
     }
 
     # Check if Defender is disabled
@@ -67,7 +67,8 @@ function Show-System {
 }
 function New-FileStructure {
     #Checks to make sure our install path exists. If not it will create it.
-    If (!(test-path $installpath))
+    $installpath='C:\Program Files\Forensic Tools\'
+    If (-not (test-path $installpath))
     {
         New-Item -ItemType Directory -Path $installpath
         New-Item -ItemType Directory -Path $installpath\Acquisiton
@@ -77,39 +78,85 @@ function New-FileStructure {
         New-Item -ItemType Directory -Path $installpath\misc
         New-Item -ItemType Directory -Path $installpath\Delete
     } 
-}
-function Get-Programs {
-    foreach($obj in $index)
+    else
     {
-        if ($obj.Type -eq "chocolatey") {
-            #Installs Chocolatey package manager if it is not installed then installs the proper packages
-            if(!(Test-Path -path "$env:ProgramData\Chocolatey\choco.exe")){
-                Invoke-Expression((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-                choco install $obj.Name  --yes --ignore-checksum
-                }
-                else{
-                choco install $obj.Name  --yes --ignore-checksum
-                }
-    
+        Write-Host "Your install path is: " + $installpath
+    }
+}
+
+function Install-Program {
+    param (
+        [string]$Name,
+        [string]$Type,
+        [string]$Category,
+        [string]$DownloadURL
+    )
+    $dest = 'C:\Program Files\Forensic Tools\' + $Category
+    switch ($Type) {
+        "chocolatey" {
+            if (-not (Test-Path -Path "$env:ProgramData\Chocolatey\choco.exe")) {
+                Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+            }
+            choco install $Name --yes --ignore-checksum
         }
-        elseif ($obj.Type -eq "zip"){
-        $dest = 'C:\Program Files\Forensic Tools\' + $obj.Name
-        Invoke-WebRequest -Uri $obj.DownloadURL -outfile "$dest.zip"
-        Expand-Archive -Path "$dest.zip" -DestinationPath $dest
-        Remove-Item -Path "$dest.zip"
-        }   
-        elseif ($obj.Type -eq "exe") {
-        $dest = 'C:\Program Files\Forensic Tools\' + $obj.Name
-        Invoke-WebRequest -Uri $obj.DownloadURL -OutFile "$dest.exe"
+        "zip" {
+            Invoke-WebRequest -Uri $DownloadURL -OutFile "$dest.zip"
+            Expand-Archive -Path "$dest.zip" -DestinationPath $dest
+            Remove-Item -Path "$dest.zip"
         }
-        elseif ($obj.Type -eq "git") {
-        $dest = 'C:\Program Files\Forensic Tools\' + $obj.Name
-        git clone $obj.DownloadURL $dest
+        "exe" {
+            Invoke-WebRequest -Uri $DownloadURL -OutFile "$dest.exe"
         }
-        elseif ($obj.Type -eq "manual") {
-        Write-Host "all is good"
+        "git" {
+            git clone $DownloadURL $dest
+        }
+        "manual" {
+            Write-Host "Installation for $Name is manual."
+        }
+        default {
+            Write-Warning "Unsupported program type: $Type"
         }
     }
 }
+
+
+function Get-Programs {
+    param (
+        [array]$Programs
+    )
+
+    $runspacePool = [runspacefactory]::CreateRunspacePool(1, [Environment]::ProcessorCount)
+    $runspacePool.Open()
+
+    $jobs = @()
+
+    foreach ($program in $Programs) {
+        $job = [PSCustomObject]@{
+            Program = $program
+            Runspace = [powershell]::Create()
+        }
+        $job.Runspace.RunspacePool = $runspacePool
+        $scriptBlock = {
+            param ($program)
+            Install-Program -Name $program.Name -Type $program.Type -DownloadURL $program.DownloadURL -Category $program.Category
+        }
+        $job.Runspace.AddScript($scriptBlock).AddArgument($program)
+        $jobs += $job
+    }
+
+    $jobs | ForEach-Object {
+        $_.Runspace.BeginInvoke()
+    }
+
+    $jobs | ForEach-Object {
+        $_.Runspace.EndInvoke($_.Runspace)
+        $_.Runspace.Dispose()
+    }
+
+    $runspacePool.Close()
+    $runspacePool.Dispose()
+ }
+
+Show-System
 New-FileStructure
-Get-Programs
+Get-Programs $Index

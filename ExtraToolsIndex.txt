@@ -1,101 +1,99 @@
-Name,Type,DownloadURL
-chocolatey-core.extension,chocolatey,--
-chocolatey-compatibility.extension,chocolatey,--
-chocolatey-dotnetfx.extension,chocolatey,--
-dotnet4.5,chocolatey,--
-dotnet4.6.1,chocolatey,--
-flashplayeractivex,chocolatey,--
-javaruntime,chocolatey,--
-git,chocolatey,--
-adobeair,chocolatey,--
-activeperl,chocolatey,--
-adobereader,chocolatey,--
-googlechrome,chocolatey,--
-firefox,chocolatey,--
-notepadplusplus.install,chocolatey,--
-python,chocolatey,--
-7zip.install,chocolatey,--
-libreoffice-fresh,chocolatey,--
-greenshot,chocolatey,--
-openvpn,chocolatey,--
-obs-studio.install,chocolatey,--
-putty,chocolatey,--
-access-data-registry-viewer,chocolatey,--
-nirlauncher,chocolatey,--
-photorec,chocolatey,--
-hindsight-gui,chocolatey,--
-exiftool,chocolatey,--
-hxd,chocolatey,--
-sysinternals,chocolatey,--
-jq,chocolatey,--
-hindsight,chocolatey,--
-hindsight-gui,chocolatey,--
-wireshark,chocolatey,--
-tableau-imager,chocolatey,--
-hibernation-recon,chocolatey,--
-arsenalimagemounter,chocolatey,--
-dcode,chocolatey,--
-bulk-extractor,chocolatey,--
-aurora-ir,chocolatey,--
-volatility3,chocolatey,--
-mft2csv,chocolatey,--
-logfileparser,chocolatey,--
-ileapp-gui,chocolatey,--
-usnjrnl2csv,chocolatey,--
-aleapp,chocolatey,--
-sleuthkit,chocolatey,--
-radare2,chocolatey,--
-autopsy,chocolatey,--
-defraggler,chocolatey,--
-esedatabaseview,chocolatey,--
-free-pst-reader,chocolatey,--
-free-ost-reader,chocolatey,--
-logparser,chocolatey,--
-plaso,chocolatey,--
-timelineexplorer,chocolatey,--
-winprefetchview,chocolatey,--
-regripper,chocolatey,--
-shadowexplorer,chocolatey,--
-sqlitebrowser,chocolatey,--
-strings,chocolatey,--
-thumbs-viewer,chocolatey,--
-uniextract,chocolatey,--
-unxutils,chocolatey,--
-userassistview,chocolatey,--
-cyberchef,chocolatey,--
-yara ,chocolatey,--
-one drive explorer,git,https://github.com/Beercow/OneDriveExplorer.git
-shellbags python parser,git,https://github.com/williballenthin/shellbags.git 
-skype parser,git,https://github.com/TheAlbatrossCodes/skype-parser.git
-srum dump,git,https://github.com/MarkBaggett/srum-dump.git
-Woanware Autorunner,git,https://github.com/woanware/autorunner.git
-Woanware Reg-Entropy-Scanner,git,https://github.com/woanware/reg-entropy-scanner.git
-Woanware Forensic User Info,git,https://github.com/woanware/ForensicUserInfo.git
-Woanware JumpLister,git,https://github.com/woanware/JumpLister.git
-ShimCache Parser,git,https://github.com/mandiant/ShimCacheParser.git
-Woanware USB Device Forensics,git,https://github.com/woanware/usbdeviceforensics.git
-Volatility distrom,git,https://github.com/gdabah/distorm.git
-Volatility Twitter Facebook Plugins,git,https://github.com/jeffbryner/volatilityPlugins.git
-Cylr-win,zip,https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_win-x64.zip
-Cylr-mac,zip,https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_osx-x64.zip
-Cylr-linux,zip,https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_linux-x64.zip
-MiTec Structured Storage View,zip,http://www.mitec.cz/Downloads/SSView.zip
-MiTec Windows Registry Analyzer,zip,http://www.mitec.cz/Downloads/WRR.zip
-SPL Viewer,zip,https://www.lvbprint.de/files/splviewer/SPLView64.zip
-vsc toolset,zip,https://df-stream.com/download/318/
-SQLIte Deleted Records Parser,zip,https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_GUI.zip
-ThumbCache Viewer,zip,https://github.com/thumbcacheviewer/thumbcacheviewer/releases/download/v1.0.3.9/thumbcache_viewer_64.zip
-Woanware RegRipperRunner,zip,https://github.com/woanware/RegRipperRunner/raw/master/Release/RegRipperRunner.v.1.0.3.zip
-Magnet EDD,manual,http://www.magnetforensics.com/encrypted-disk-detector-a-free-digital-forensics-tool/
-Magnet Response,manual,https://www.magnetforensics.com/resources/magnet-response/
-Magnet Acquire,manual,https://www.magnetforensics.com/resources/magnet-acquire/
-MagnetRAMCapture,manual,https://www.magnetforensics.com/resources/magnet-ram-capture/
-Magnet Web page saver,manual,https://www.magnetforensics.com/resources/web-page-saver/
-event log explorer,manual,https://eventlogxp.com/download.php
-FTK Imager,manual,https://go.exterro.com/l/43312/2023-05-03/fc4b78
-Wfa4e Tools,manual,https://uce42d1db0becb7b5814a015e05e.dl.dropboxusercontent.com/cd/0/get/CFr56QnkcxW-vLdvwlkXDebbS14KFveWL_IsdPdbHo1CzogfGcYHdbVAw8bTUIBhetpuPg8AcOtjbhBi8cOWlSFqdOyu1HlqxUjtZSQsxD014aMPidpswrOstvg1hXT8vZYf_MiJXiX5lQ8iopTge7oTnFRe6yZ9mzBpQEmlll42QYFaVpf9Me8mksGdcIWvfz4/file?_download_id=5484779257715322426652457773979405576209373613541426029230980554&_notify_domain=www.dropbox.com&dl=1
-SAMInside,exe,https://us.softradar.com/static/products/saminside/distr/2.7.0.1/saminside_softradar-com.exe
-Simple File Parser,exe,https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/simple-file-parser/Simple%20File%20Parser%20v1.5.1.exe
-Volatility Stand Alone Exe,exe ,https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/volatility/volatility-2.3.1.standalone.exe
-SQLIte Deleted Records Parser,exe,https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_CLI.exe
-SQLIte Deleted Records Parser,exe,https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_v1.1.py
+Name,Type,Category,DownloadURL
+chocolatey-core.extension,chocolatey,--,--
+chocolatey-compatibility.extension,chocolatey,--,--
+chocolatey-dotnetfx.extension,chocolatey,--,--
+dotnet4.5,chocolatey,--,--
+dotnet4.6.1,chocolatey,--,--
+flashplayeractivex,chocolatey,--,--
+javaruntime,chocolatey,--,--
+git,chocolatey,--,--
+adobeair,chocolatey,--,--
+activeperl,chocolatey,--,--
+adobereader,chocolatey,--,--
+googlechrome,chocolatey,--,--
+firefox,chocolatey,--,--
+notepadplusplus.install,chocolatey,--,--
+python,chocolatey,--,--
+7zip.install,chocolatey,--,--
+libreoffice-fresh,chocolatey,--,--
+greenshot,chocolatey,--,--
+openvpn,chocolatey,--,--
+obs-studio.install,chocolatey,--,--
+putty,chocolatey,--,--
+access-data-registry-viewer,chocolatey,--,--
+nirlauncher,chocolatey,--,--
+photorec,chocolatey,--,--
+hindsight-gui,chocolatey,--,--
+exiftool,chocolatey,--,--
+hxd,chocolatey,--,--
+sysinternals,chocolatey,--,--
+jq,chocolatey,--,--
+hindsight,chocolatey,--,--
+hindsight-gui,chocolatey,--,--
+wireshark,chocolatey,--,--
+tableau-imager,chocolatey,--,--
+hibernation-recon,chocolatey,--,--
+arsenalimagemounter,chocolatey,--,--
+dcode,chocolatey,--,--
+bulk-extractor,chocolatey,--,--
+aurora-ir,chocolatey,--,--
+volatility3,chocolatey,--,--
+mft2csv,chocolatey,--,--
+logfileparser,chocolatey,--,--
+ileapp-gui,chocolatey,--,--
+usnjrnl2csv,chocolatey,--,--
+aleapp,chocolatey,--,--
+sleuthkit,chocolatey,--,--
+radare2,chocolatey,--,--
+autopsy,chocolatey,--,--
+defraggler,chocolatey,--,--
+esedatabaseview,chocolatey,--,--
+free-pst-reader,chocolatey,--,--
+free-ost-reader,chocolatey,--,--
+logparser,chocolatey,--,--
+plaso,chocolatey,--,--
+timelineexplorer,chocolatey,--,--
+winprefetchview,chocolatey,--,--
+regripper,chocolatey,--,--
+shadowexplorer,chocolatey,--,--
+sqlitebrowser,chocolatey,--,--
+strings,chocolatey,--,--
+thumbs-viewer,chocolatey,--,--
+uniextract,chocolatey,--,--
+unxutils,chocolatey,--,--
+userassistview,chocolatey,--,--
+cyberchef,chocolatey,--,--
+yara ,chocolatey,--,--
+one drive explorer,git,Analysis,https://github.com/Beercow/OneDriveExplorer.git
+shellbags python parser,git,Parser,https://github.com/williballenthin/shellbags.git 
+skype parser,git,Parser,https://github.com/TheAlbatrossCodes/skype-parser.git
+srum dump,git,Acquisiton,https://github.com/MarkBaggett/srum-dump.git
+Woanware Autorunner,git,Parser,https://github.com/woanware/autorunner.git
+Woanware Reg-Entropy-Scanner,git,Parser,https://github.com/woanware/reg-entropy-scanner.git
+Woanware Forensic User Info,git,Acquisiton,https://github.com/woanware/ForensicUserInfo.git
+Woanware JumpLister,git,Parser,https://github.com/woanware/JumpLister.git
+ShimCache Parser,git,Parser,https://github.com/mandiant/ShimCacheParser.git
+Woanware USB Device Forensics,git,Analysis,https://github.com/woanware/usbdeviceforensics.git
+Volatility distrom,git,Analysis,https://github.com/gdabah/distorm.git
+Volatility Twitter Facebook Plugins,git,Analysis,https://github.com/jeffbryner/volatilityPlugins.git
+Cylr-win,zip,Acquisiton,https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_win-x64.zip
+Cylr-mac,zip,Acquisiton,https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_osx-x64.zip
+Cylr-linux,zip,Acquisiton,https://github.com/orlikoski/CyLR/releases/download/2.2.0/CyLR_linux-x64.zip
+MiTec Structured Storage View,zip,Analysis,http://www.mitec.cz/Downloads/SSView.zip
+MiTec Windows Registry Analyzer,zip,Analysis,http://www.mitec.cz/Downloads/WRR.zip
+SPL Viewer,zip,Analysis,https://www.lvbprint.de/files/splviewer/SPLView64.zip
+vsc toolset,zip,Analysis,https://df-stream.com/download/318/
+SQLIte Deleted Records Parser,zip,Analysis,https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_GUI.zip
+ThumbCache Viewer,zip,Analysis,https://github.com/thumbcacheviewer/thumbcacheviewer/releases/download/v1.0.3.9/thumbcache_viewer_64.zip
+Woanware RegRipperRunner,zip,Acquisiton,https://github.com/woanware/RegRipperRunner/raw/master/Release/RegRipperRunner.v.1.0.3.zip
+Magnet EDD,manual,Acquisiton,http://www.magnetforensics.com/encrypted-disk-detector-a-free-digital-forensics-tool/
+Magnet Response,manual,Acquisiton,https://www.magnetforensics.com/resources/magnet-response/
+Magnet Acquire,manual,Acquisiton,https://www.magnetforensics.com/resources/magnet-acquire/
+MagnetRAMCapture,manual,Acquisiton,https://www.magnetforensics.com/resources/magnet-ram-capture/
+Magnet Web page saver,manual,Analysis,https://www.magnetforensics.com/resources/web-page-saver/
+event log explorer,manual,Analysis,https://eventlogxp.com/download.php
+FTK Imager,manual,Acquisiton,https://go.exterro.com/l/43312/2023-05-03/fc4b78
+Simple File Parser,exe,Parser,https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/simple-file-parser/Simple%20File%20Parser%20v1.5.1.exe
+Volatility Stand Alone Exe,exe,Analysis,https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/volatility/volatility-2.3.1.standalone.exe
+SQLIte Deleted Records Parser,exe,Parser,https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_CLI.exe
+SQLIte Deleted Records Parser,exe,Parser,https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_v1.1.py
