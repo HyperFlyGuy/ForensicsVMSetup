@@ -1,12 +1,3 @@
-function Main {
-    $Index=Import-Csv -path $PSScriptRoot\ExtraToolsIndex.txt
-    Show-System
-    New-FileStructure
-    Install-Programs $Index
-}
-
-
-
 function New-FileStructure {
     #Checks to make sure our install path exists. If not it will create it.
     $installpath='C:\Program Files\Forensic Tools\'
@@ -100,30 +91,41 @@ function Show-System {
     }
 }
 function Install-Programs {
-    param (
-        $program
-    )
+
     $counter=0
-     foreach($elem in $program){
-         $dest = "C:\Program Files\Forensic Tools\$program.Category[$counter]"
-         switch ($program.Type[$counter]) 
+    $cred=Get-Credential
+    $Index= @{
+        Name = [string]$name
+		Type = [string]$type
+        Category = [string]$category
+		DownloadURL  = [string]$getUrl
+    }
+    $Index=Import-Csv -path .\ExtraToolsIndex.txt
+    ForEach ($obj in $Index) {
+         $dest = "C:\Program Files\Forensic Tools\$Index.Category"
+         Write-Host $Index.Name[$counter] $Index.Type[$counter]
+         switch ($Index.Type[$counter])
          {
              'chocolatey' {
                 Import-Module Boxstarter.Chocolatey
-                $cred=Get-Credential
-                Install-BoxstarterPackage -PackageName "$program.Name[$counter]" -Credential $cred
+                Install-BoxstarterPackage -PackageName $Index.Name[$counter] -Credential $cred
             }
              'zip' {
-                 Invoke-WebRequest -Uri $program.DownloadURL[$counter] -OutFile "$dest.zip"
+                 Invoke-WebRequest -Uri "$Index.DownloadURL[$counter]" -OutFile "$dest.zip"
                  Expand-Archive -Path "$dest.zip" -DestinationPath $dest
                  Remove-Item -Path "$dest.zip"
              }
-             'exe' {Invoke-WebRequest -Uri $program.DownloadURL[$counter] -OutFile "$dest.exe"}
-             'git' {git clone $program.DownloadURL[$counter] $dest}
-             'manual' {Write-Host "Installation for $program.Name[$counter] is manual."}
-             default {Write-Warning "Unsupported program type: $program.Type[$counter]"}
+             'exe' {Invoke-WebRequest -Uri "$Index.DownloadURL[$counter])" -OutFile "$dest.exe"}
+             'git' {git clone "$Index.DownloadURL[$counter]" $dest}
+             'manual' {Write-Host "Installation for $Index.Name[$counter] is manual. Please visit $Index.DownloadURL[$counter] and fill out the form."}
+             default {Write-Warning "Unsupported program type: $Index.Type[$counter]"}
          }
          $counter++
     }
+}
+function Main {
+    Show-System
+    New-FileStructure
+    Install-Programs
 }
 Main
