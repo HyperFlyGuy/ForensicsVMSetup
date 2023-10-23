@@ -1,5 +1,39 @@
+function Main {
+    $Index=Import-Csv -path $PSScriptRoot\ExtraToolsIndex.txt
+    Show-System
+    New-FileStructure
+    Install-Programs $Index
+}
 
-$Index=Import-Csv -path $PSScriptRoot\ExtraToolsIndex.txt
+
+
+function New-FileStructure {
+    #Checks to make sure our install path exists. If not it will create it.
+    $installpath='C:\Program Files\Forensic Tools\'
+    If (-not (test-path $installpath))
+    {
+        New-Item -ItemType Directory -Path $installpath
+        New-Item -ItemType Directory -Path $installpath\Acquisiton
+        New-Item -ItemType Directory -Path $installpath\Parsing
+        New-Item -ItemType Directory -Path $installpath\Analysis
+        New-Item -ItemType Directory -Path $installpath\Reporting
+        New-Item -ItemType Directory -Path $installpath\misc
+        New-Item -ItemType Directory -Path $installpath\Delete
+    } 
+    else
+    {
+        Write-Host "Your install path is: $installpath"
+    }
+    if (-not (Test-Path -Path "$env:ProgramData\Chocolatey\choco.exe")) 
+    {
+        #Checks for chocolatey install if not it will install it along with boxstarter
+        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://boxstarter.org/bootstrapper.ps1')); Get-Boxstarter -Force
+    }
+    else{
+        Write-Host "Chocolatey is installed"
+    }
+}
 function Show-System {
     # Ensure execution policy is unrestricted
     Write-Host "[+] Checking if execution policy is unrestricted..."
@@ -65,63 +99,20 @@ function Show-System {
         }
     }
 }
-function New-FileStructure {
-    #Checks to make sure our install path exists. If not it will create it.
-    $installpath='C:\Program Files\Forensic Tools\'
-    If (-not (test-path $installpath))
-    {
-        New-Item -ItemType Directory -Path $installpath
-        New-Item -ItemType Directory -Path $installpath\Acquisiton
-        New-Item -ItemType Directory -Path $installpath\Parsing
-        New-Item -ItemType Directory -Path $installpath\Analysis
-        New-Item -ItemType Directory -Path $installpath\Reporting
-        New-Item -ItemType Directory -Path $installpath\misc
-        New-Item -ItemType Directory -Path $installpath\Delete
-    } 
-    else
-    {
-        Write-Host "Your install path is: $installpath"
-    }
-    if (-not (Test-Path -Path "$env:ProgramData\Chocolatey\choco.exe")) {
-        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-    }
-    else{
-        Write-Host "Chocolatey is installed"
-    }
-}
-function Install-Program {
+function Install-Programs {
     param (
-        $Name,
-        $Type,
-        $Category,
-        $DownloadURL
-    )
-    $dest = 'C:\Program Files\Forensic Tools\' + $Category
-    switch ($Type) 
-    {
-        'chocolatey' {choco install $Name --yes --ignore-checksum}
-        'zip' {
-            Invoke-WebRequest -Uri $DownloadURL -OutFile "$dest.zip"
-            Expand-Archive -Path "$dest.zip" -DestinationPath $dest
-            Remove-Item -Path "$dest.zip"
-        }
-        'exe' {Invoke-WebRequest -Uri $DownloadURL -OutFile "$dest.exe"}
-        'git' {git clone $DownloadURL $dest}
-        'manual' {Write-Host "Installation for $Name is manual."}
-        default {Write-Warning "Unsupported program type: $Type"}
-    }
-}
-
-function Get-Programs {
-        param (
         $program
-        )
-    $dest = 'C:\Program Files\Forensic Tools\$Category'
+    )
     $counter=0
      foreach($elem in $program){
+         $dest = "C:\Program Files\Forensic Tools\$program.Category[$counter]"
          switch ($program.Type[$counter]) 
          {
-             'chocolatey' {choco install $program.Name[$counter] --yes --ignore-checksum}
+             'chocolatey' {
+                Import-Module Boxstarter.Chocolatey
+                $cred=Get-Credential
+                Install-BoxstarterPackage -PackageName "$program.Name[$counter]" -Credential $cred
+            }
              'zip' {
                  Invoke-WebRequest -Uri $program.DownloadURL[$counter] -OutFile "$dest.zip"
                  Expand-Archive -Path "$dest.zip" -DestinationPath $dest
@@ -134,8 +125,5 @@ function Get-Programs {
          }
          $counter++
     }
-    }
-
-Show-System
-New-FileStructure
-Get-Programs $Index
+}
+Main
