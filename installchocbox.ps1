@@ -90,42 +90,55 @@ function Show-System {
         }
     }
 }
-function Install-Programs {
-
+function Install-OtherPrograms {
+    params(
+        $Index
+        )
     $counter=0
-    $cred=Get-Credential
-    $Index= @{
-        Name = [string]$name
-		Type = [string]$type
-        Category = [string]$category
-		DownloadURL  = [string]$getUrl
-    }
-    $Index=Import-Csv -path .\ExtraToolsIndex.txt
     ForEach ($obj in $Index) {
-         $dest = "C:\Program Files\Forensic Tools\$Index.Category"
+         $dest = "C:\Program Files\Forensic Tools\" + $Index.Category[$counter] + "\" + $Index.name[$counter]
          Write-Host $Index.Name[$counter] $Index.Type[$counter]
          switch ($Index.Type[$counter])
          {
-             'chocolatey' {
-                Import-Module Boxstarter.Chocolatey
-                Install-BoxstarterPackage -PackageName $Index.Name[$counter] -Credential $cred
-            }
              'zip' {
-                 Invoke-WebRequest -Uri "$Index.DownloadURL[$counter]" -OutFile "$dest.zip"
-                 Expand-Archive -Path "$dest.zip" -DestinationPath $dest
-                 Remove-Item -Path "$dest.zip"
+                 Invoke-WebRequest -Uri $($Index.DownloadURL[$counter]) -OutFile "$($dest).zip"
+                 Expand-Archive -Path "$($dest).zip" -DestinationPath "$($dest)"
+                 Remove-Item -Path "$($dest).zip"
              }
-             'exe' {Invoke-WebRequest -Uri "$Index.DownloadURL[$counter])" -OutFile "$dest.exe"}
-             'git' {git clone "$Index.DownloadURL[$counter]" $dest}
-             'manual' {Write-Host "Installation for $Index.Name[$counter] is manual. Please visit $Index.DownloadURL[$counter] and fill out the form."}
-             default {Write-Warning "Unsupported program type: $Index.Type[$counter]"}
+             'exe' {Invoke-WebRequest -Uri $Index.DownloadURL[$counter] -OutFile "$($dest).exe"}
+             'git' {git clone $Index.DownloadURL[$counter] $($dest)}
+             'manual' {Write-Host ("Installation for " + $Index.Name[$counter] + "is manual. Please visit " + $Index.DownloadURL[$counter] + "and fill out the form.")}
+             default {Write-Warning "Unsupported program type: " + $Index.Type[$counter]}
          }
          $counter++
     }
 }
+function InstallChocPackages {
+    param (
+        [pscredential]$cred,
+        $Index
+    )
+    foreach ($obj in $Index){
+        $counter=0
+        if($index.Type[$counter] -eq "chocolatey"){
+            Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
+            Import-Module Boxstarter.Chocolatey
+            Start-Job -ScriptBlock {
+                Install-BoxstarterPackage -PackageName $Index.Name[$counter] -Credential $cred -DisableReboots
+                refreshenv
+            }
+        }
+        $counter++
+    }
+    Get-Job | Wait-Job
+   
+}
 function Main {
+    $Index=Import-Csv -path .\ExtraToolsIndex.txt
     Show-System
+    $cred=Get-Credential
     New-FileStructure
-    Install-Programs
+    InstallChocPackages $cred $Index
+    Install-OtherPrograms $Index
 }
 Main
