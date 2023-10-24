@@ -91,46 +91,61 @@ function Show-System {
     }
 }
 function Install-OtherPrograms {
-    params(
-        $Index
+    param (
+        $Index,
+        $cred
         )
-    $counter=0
     ForEach ($obj in $Index) {
-         $dest = "C:\Program Files\Forensic Tools\" + $Index.Category[$counter] + "\" + $Index.name[$counter]
-         Write-Host $Index.Name[$counter] $Index.Type[$counter]
-         switch ($Index.Type[$counter])
+         $dest = "C:\Program Files\Forensic Tools\" + $obj.Category + "\" + $obj.name
+         switch ($obj.Type)
          {
-             'zip' {
-                 Invoke-WebRequest -Uri $($Index.DownloadURL[$counter]) -OutFile "$($dest).zip"
-                 Expand-Archive -Path "$($dest).zip" -DestinationPath "$($dest)"
-                 Remove-Item -Path "$($dest).zip"
-             }
-             'exe' {Invoke-WebRequest -Uri $Index.DownloadURL[$counter] -OutFile "$($dest).exe"}
-             'git' {git clone $Index.DownloadURL[$counter] $($dest)}
-             'manual' {Write-Host ("Installation for " + $Index.Name[$counter] + "is manual. Please visit " + $Index.DownloadURL[$counter] + "and fill out the form.")}
-             default {Write-Warning "Unsupported program type: " + $Index.Type[$counter]}
+            'chocolatey'{
+                Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
+                if (-not (Test-Path -Path "$env:ProgramData\Chocolatey\lib\$($obj.Name)")) {
+                    Write-Host "############################################################"
+                    Write-Host ("[PROGRESS:] $($obj.Name) is now going to be installed!") -ForegroundColor DarkYellow -BackgroundColor Yellow
+                    Install-BoxstarterPackage -PackageName $obj.Name -Credential $cred -DisableReboots
+                    Write-Host ("[COMPLETE:] $($obj.Name) has finished its installation!") -ForegroundColor DarkGreen -BackgroundColor Green
+                    Write-Host "############################################################"
+                }
+                else {
+                    Write-Host "############################################################"
+                    Write-Host "$($obj.Name) was already installed!!!"  -ForegroundColor DarkGreen -BackgroundColor Green
+                    Write-Host "############################################################"
+                }
+
+            }
+            'zip' {
+                Invoke-WebRequest -Uri $($obj.DownloadURL) -OutFile "$($dest).zip"
+                Expand-Archive -Path "$($dest).zip" -DestinationPath "$($dest)"
+                Remove-Item -Path "$($dest).zip"
+            }
+            'exe' {Invoke-WebRequest -Uri $obj.DownloadURL -OutFile "$($dest).exe"}
+            'git' {git clone $obj.DownloadURL $($dest)}
+            'manual' {
+                Write-Host "############################################################"
+                Write-Host ("Installation for " + $obj.Name + " is manual. Please visit " + $obj.DownloadURL + " and fill out the form.")
+                Write-Host "############################################################"}
+            default {Write-Warning "Unsupported program type: " + $obj.Type}
          }
-         $counter++
     }
 }
-function InstallChocPackages {
+function Install-ChocPackages {
     param (
         [pscredential]$cred,
-        $Index
+        $obj
     )
-    foreach ($obj in $Index){
-        $counter=0
-        if($index.Type[$counter] -eq "chocolatey"){
+    foreach ($obj in $obj){
+        if($obj.Type -eq "chocolatey"){
             Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
-            Import-Module Boxstarter.Chocolatey
-            Start-Job -ScriptBlock {
-                Install-BoxstarterPackage -PackageName $Index.Name[$counter] -Credential $cred -DisableReboots
-                refreshenv
-            }
+            Write-Host "#" * 50
+            Write-Host ("[PROGRESS:] $($obj.Name) is now going to be installed!") -ForegroundColor DarkYellow -BackgroundColor Yellow
+            Install-BoxstarterPackage -PackageName $obj.Name -Credential $cred -DisableReboots
+            Write-Host ("[COMPLETE:] $($obj.Name) has finished its installation!") -ForegroundColor DarkGreen -BackgroundColor Green
+            Write-Host "#" * 50
         }
-        $counter++
     }
-    Get-Job | Wait-Job
+
    
 }
 function Main {
@@ -138,7 +153,6 @@ function Main {
     Show-System
     $cred=Get-Credential
     New-FileStructure
-    InstallChocPackages $cred $Index
-    Install-OtherPrograms $Index
+    Install-OtherPrograms $Index $cred
 }
 Main

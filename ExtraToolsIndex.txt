@@ -1,7 +1,5 @@
 Name,Type,Category,DownloadURL
 chocolatey-core.extension,chocolatey,--,--
-chocolatey-compatibility.extension,chocolatey,--,--
-chocolatey-dotnetfx.extension,chocolatey,--,--
 dotnet4.5,chocolatey,--,--
 dotnet4.6.1,chocolatey,--,--
 flashplayeractivex,chocolatey,--,--
@@ -9,8 +7,6 @@ javaruntime,chocolatey,--,--
 git,chocolatey,--,--
 adobeair,chocolatey,--,--
 activeperl,chocolatey,--,--
-adobereader,chocolatey,--,--
-googlechrome,chocolatey,--,--
 firefox,chocolatey,--,--
 notepadplusplus.install,chocolatey,--,--
 python,chocolatey,--,--
@@ -52,7 +48,6 @@ winprefetchview,chocolatey,--,--
 sqlitebrowser,chocolatey,--,--
 strings,chocolatey,--,--
 thumbs-viewer,chocolatey,--,--
-uniextract,chocolatey,--,--
 unxutils,chocolatey,--,--
 userassistview,chocolatey,--,--
 cyberchef,chocolatey,--,--

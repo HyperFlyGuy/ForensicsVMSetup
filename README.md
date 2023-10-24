@@ -11,6 +11,9 @@ Step Two:
 
 
 
-Current Issues:
-Need to install Shadow explorer  another way besides Chocolatey. It causes the script to hang
-Need to open a new powershell prompt once chocolatey is done so git is recognized as a command. Boxstarter should take care of this.
+To Do:
+-Need to install Shadow explorer, winprefetch, esedatabaseviewer another way besides Chocolatey. It causes the script to hang
+-Need a centralized folder for all the tools that allows proper organization
+-Verify that all the programs work and if any further installation is required. Mainly with the Git Repos
+
+
