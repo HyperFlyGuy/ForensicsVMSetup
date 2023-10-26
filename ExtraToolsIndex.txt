@@ -41,10 +41,8 @@ sleuthkit,chocolatey,--,--
 radare2,chocolatey,--,--
 autopsy,chocolatey,--,--
 defraggler,chocolatey,--,--
-esedatabaseview,chocolatey,--,--
 logparser,chocolatey,--,--
 timelineexplorer,chocolatey,--,--
-winprefetchview,chocolatey,--,--
 sqlitebrowser,chocolatey,--,--
 strings,chocolatey,--,--
 thumbs-viewer,chocolatey,--,--

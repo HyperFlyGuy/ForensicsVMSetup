@@ -1,3 +1,8 @@
+function refresh-path {
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") +
+                ";" +
+                [System.Environment]::GetEnvironmentVariable("Path","User")
+}
 function New-FileStructure {
     #Checks to make sure our install path exists. If not it will create it.
     $installpath='C:\Program Files\Forensic Tools\'
@@ -5,11 +10,9 @@ function New-FileStructure {
     {
         New-Item -ItemType Directory -Path $installpath
         New-Item -ItemType Directory -Path $installpath\Acquisiton
-        New-Item -ItemType Directory -Path $installpath\Parsing
+        New-Item -ItemType Directory -Path $installpath\Parser
         New-Item -ItemType Directory -Path $installpath\Analysis
         New-Item -ItemType Directory -Path $installpath\Reporting
-        New-Item -ItemType Directory -Path $installpath\misc
-        New-Item -ItemType Directory -Path $installpath\Delete
     } 
     else
     {
@@ -100,13 +103,23 @@ function Install-OtherPrograms {
          switch ($obj.Type)
          {
             'chocolatey'{
-                Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
                 if (-not (Test-Path -Path "$env:ProgramData\Chocolatey\lib\$($obj.Name)")) {
                     Write-Host "############################################################"
-                    Write-Host ("[PROGRESS:] $($obj.Name) is now going to be installed!") -ForegroundColor DarkYellow -BackgroundColor Yellow
-                    Install-BoxstarterPackage -PackageName $obj.Name -Credential $cred -DisableReboots
-                    Write-Host ("[COMPLETE:] $($obj.Name) has finished its installation!") -ForegroundColor DarkGreen -BackgroundColor Green
+                    Write-Host ("[PROGRESS:] $($obj.Name) is now going to be installed!") -ForegroundColor White -BackgroundColor Yellow
+                    Install-BoxstarterPackage -PackageName $obj.Name -Credential $cred -DisableReboot
+                    Write-Host ("[COMPLETE:] $($obj.Name) has finished its installation!") -ForegroundColor White -BackgroundColor Green
+                }
+                else {
                     Write-Host "############################################################"
+                    Write-Host "$($obj.Name) was already installed!!!"  -ForegroundColor White -BackgroundColor Green
+                }
+
+            }
+            'zip' {
+                if (-not (Test-Path -Path $dest)){
+                    Invoke-WebRequest -Uri $($obj.DownloadURL) -OutFile "$($dest).zip"
+                    Expand-Archive -Path "$($dest).zip" -DestinationPath "$($dest)"
+                    Remove-Item -Path "$($dest).zip"
                 }
                 else {
                     Write-Host "############################################################"
@@ -115,38 +128,33 @@ function Install-OtherPrograms {
                 }
 
             }
-            'zip' {
-                Invoke-WebRequest -Uri $($obj.DownloadURL) -OutFile "$($dest).zip"
-                Expand-Archive -Path "$($dest).zip" -DestinationPath "$($dest)"
-                Remove-Item -Path "$($dest).zip"
+            'exe' {
+                if (-not (Test-Path -Path "$($dest).exe")){
+                    Invoke-WebRequest -Uri $obj.DownloadURL -OutFile "$($dest).exe"
+                }
+                else {
+                    Write-Host "############################################################"
+                    Write-Host "$($obj.Name) was already installed!!!"  -ForegroundColor White -BackgroundColor Green
+                }
             }
-            'exe' {Invoke-WebRequest -Uri $obj.DownloadURL -OutFile "$($dest).exe"}
-            'git' {git clone $obj.DownloadURL $($dest)}
+            'git' {
+                if (-not (Test-Path -Path $dest)){
+                    git clone $obj.DownloadURL $($dest)
+                }
+                else {
+                    Write-Host "############################################################"
+                    Write-Host "$($obj.Name) was already installed!!!"  -ForegroundColor DarkGreen -BackgroundColor Green
+                    Write-Host "############################################################"
+                }
+                }
             'manual' {
                 Write-Host "############################################################"
                 Write-Host ("Installation for " + $obj.Name + " is manual. Please visit " + $obj.DownloadURL + " and fill out the form.")
                 Write-Host "############################################################"}
             default {Write-Warning "Unsupported program type: " + $obj.Type}
          }
+         refresh-path
     }
-}
-function Install-ChocPackages {
-    param (
-        [pscredential]$cred,
-        $obj
-    )
-    foreach ($obj in $obj){
-        if($obj.Type -eq "chocolatey"){
-            Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
-            Write-Host "#" * 50
-            Write-Host ("[PROGRESS:] $($obj.Name) is now going to be installed!") -ForegroundColor DarkYellow -BackgroundColor Yellow
-            Install-BoxstarterPackage -PackageName $obj.Name -Credential $cred -DisableReboots
-            Write-Host ("[COMPLETE:] $($obj.Name) has finished its installation!") -ForegroundColor DarkGreen -BackgroundColor Green
-            Write-Host "#" * 50
-        }
-    }
-
-   
 }
 function Main {
     $Index=Import-Csv -path .\ExtraToolsIndex.txt
