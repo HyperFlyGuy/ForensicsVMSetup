@@ -13,7 +13,6 @@ Step Two:
 
 To Do:
 -Need to install Shadow explorer, winprefetch, esedatabaseviewer another way besides Chocolatey. It causes the script to hang
--Need a centralized folder for all the tools that allows proper organization
 -Verify that all the programs work and if any further installation is required. Mainly with the Git Repos
-
+Most Shortcuts are mapping properly. However the few that are not need to be mapped
 

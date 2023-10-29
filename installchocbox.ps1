@@ -9,7 +9,7 @@ function New-FileStructure {
     If (-not (test-path $installpath))
     {
         New-Item -ItemType Directory -Path $installpath
-        New-Item -ItemType Directory -Path $installpath\Acquisiton
+        New-Item -ItemType Directory -Path $installpath\Acquisition
         New-Item -ItemType Directory -Path $installpath\Parser
         New-Item -ItemType Directory -Path $installpath\Analysis
         New-Item -ItemType Directory -Path $installpath\Reporting
@@ -105,7 +105,7 @@ function Install-OtherPrograms {
             'chocolatey'{
                 if (-not (Test-Path -Path "$env:ProgramData\Chocolatey\lib\$($obj.Name)")) {
                     Write-Host "############################################################"
-                    Write-Host ("[PROGRESS:] $($obj.Name) is now going to be installed!") -ForegroundColor White -BackgroundColor Yellow
+                    Write-Host ("[PROGRESS:] $($obj.Name) is now going to be installed!") -ForegroundColor Black -BackgroundColor Yellow
                     Install-BoxstarterPackage -PackageName $obj.Name -Credential $cred -DisableReboot
                     Write-Host ("[COMPLETE:] $($obj.Name) has finished its installation!") -ForegroundColor White -BackgroundColor Green
                 }
@@ -156,11 +156,33 @@ function Install-OtherPrograms {
          refresh-path
     }
 }
+function New-Shortcuts {
+    param (
+        $Index
+    )
+    foreach($obj in $Index){
+        if($obj.Type -eq "chocolatey" -and ($obj.Category -eq "Acquisition" -or $obj.Category -eq "Parser" -or $obj.Category -eq "Analysis" -or $obj.Category -eq "Reporting")){
+            $ShortcutFile = "C:\Program Files\Forensic Tools\" + $obj.Category + "\" + $obj.name + ".lnk"
+            $TargetFile = "$env:ProgramData\Chocolatey\bin\$($obj.Name)"
+            $WScriptShell = New-Object -ComObject WScript.Shell
+            $Shortcut = $WScriptShell.CreateShortcut($ShortcutFile)
+            $Shortcut.TargetPath = $TargetFile
+            $Shortcut.Save()
+        }
+
+    }
+    $DesktopPath = [Environment]::GetFolderPath("Desktop")
+    $WScriptShell = New-Object -ComObject WScript.Shell
+    $Shortcut = $WScriptShell.CreateShortcut("$DesktopPath\Forensic Tools.lnk")
+    $Shortcut.TargetPath = "C:\Program Files\Forensic Tools"
+    $Shortcut.Save()
+}
 function Main {
     $Index=Import-Csv -path .\ExtraToolsIndex.txt
     Show-System
     $cred=Get-Credential
     New-FileStructure
     Install-OtherPrograms $Index $cred
+    New-Shortcuts $Index
 }
 Main
