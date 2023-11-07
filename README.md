@@ -7,12 +7,12 @@ Step One:
 Step Two:
 - Make sure you disable the Microsoft Security Suite (Tamper Protection, Virus and Threat Protection, App Browser Control, etc). If you want to be extra safe you can set an exclusion on your C Drive.
 -
--Open a Powershell Administrative Prompt and then run "install.ps1"
+-Open a Powershell Administrative Prompt set execution policy to unrestricted, and then run "install.ps1"
 
 
 
 To Do:
 -Need to install Shadow explorer, winprefetch, esedatabaseviewer another way besides Chocolatey. It causes the script to hang
 -Verify that all the programs work and if any further installation is required. Mainly with the Git Repos
-Most Shortcuts are mapping properly. However the few that are not need to be mapped
+-Most Shortcuts are mapping properly. However the few that are not need to be mapped
 

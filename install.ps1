@@ -163,7 +163,7 @@ function New-Shortcuts {
     foreach($obj in $Index){
         if($obj.Type -eq "chocolatey" -and ($obj.Category -eq "Acquisition" -or $obj.Category -eq "Parser" -or $obj.Category -eq "Analysis" -or $obj.Category -eq "Reporting")){
             $ShortcutFile = "C:\Program Files\Forensic Tools\" + $obj.Category + "\" + $obj.name + ".lnk"
-            $TargetFile = "$env:ProgramData\Chocolatey\bin\$($obj.Name)"
+            $TargetFile = $obj.InstallPath
             $WScriptShell = New-Object -ComObject WScript.Shell
             $Shortcut = $WScriptShell.CreateShortcut($ShortcutFile)
             $Shortcut.TargetPath = $TargetFile
