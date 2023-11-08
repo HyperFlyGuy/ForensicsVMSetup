@@ -40,7 +40,6 @@ radare2,chocolatey,Analysis,--,--
 autopsy,chocolatey,Analysis,--,"C:\Program Files\Autopsy-4.21.0\bin\autopsy64.exe"
 defraggler,chocolatey,--,--,"C:\Program Files\Defraggler\Defraggler.exe"
 logparser,chocolatey,Parser,--,--
-timelineexplorer,chocolatey,Analysis,--,"C:\ProgramData\chocolatey\lib\timelineexplorer\tools\TimelineExplorer.exe"
 sqlitebrowser,chocolatey,Analysis,--,"C:\Program Files\DB Browser for SQLite\DB Browser for SQLite.exe"
 strings,chocolatey,Analysis,--,--
 thumbs-viewer,chocolatey,Analysis,--,"C:\ProgramData\chocolatey\lib\thumbs-viewer\tools\thumbs_viewer.exe"
@@ -70,6 +69,10 @@ vsc toolset,zip,Analysis,https://df-stream.com/download/318/,--
 SQLIte Deleted Records Parser,zip,Analysis,https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_GUI.zip,--
 ThumbCache Viewer,zip,Analysis,https://github.com/thumbcacheviewer/thumbcacheviewer/releases/download/v1.0.3.9/thumbcache_viewer_64.zip,--
 Woanware RegRipperRunner,zip,Acquisition,https://github.com/woanware/RegRipperRunner/raw/master/Release/RegRipperRunner.v.1.0.3.zip,--
+Simple File Parser,exe,Parser,https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/simple-file-parser/Simple%20File%20Parser%20v1.5.1.exe,--
+Volatility Stand Alone Exe,exe,Analysis,https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/volatility/volatility-2.3.1.standalone.exe,--
+SQLIte Deleted Records Parser,exe,Parser,https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_CLI.exe,--
+SQLIte Deleted Records Parser,exe,Parser,https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_v1.1.py,--
 Magnet EDD,manual,Acquisition,http://www.magnetforensics.com/encrypted-disk-detector-a-free-digital-forensics-tool/,--
 Magnet Response,manual,Acquisition,https://www.magnetforensics.com/resources/magnet-response/,--
 Magnet Acquire,manual,Acquisition,https://www.magnetforensics.com/resources/magnet-acquire/,--
@@ -77,7 +80,4 @@ MagnetRAMCapture,manual,Acquisition,https://www.magnetforensics.com/resources/ma
 Magnet Web page saver,manual,Analysis,https://www.magnetforensics.com/resources/web-page-saver/,--
 event log explorer,manual,Analysis,https://eventlogxp.com/download.php,--
 FTK Imager,manual,Acquisition,https://go.exterro.com/l/43312/2023-05-03/fc4b78,--
-Simple File Parser,exe,Parser,https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/simple-file-parser/Simple%20File%20Parser%20v1.5.1.exe,--
-Volatility Stand Alone Exe,exe,Analysis,https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/volatility/volatility-2.3.1.standalone.exe,--
-SQLIte Deleted Records Parser,exe,Parser,https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_CLI.exe,--
-SQLIte Deleted Records Parser,exe,Parser,https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases/download/v.1.1/sqlparse_v1.1.py,--
+

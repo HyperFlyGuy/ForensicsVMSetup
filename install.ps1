@@ -240,12 +240,13 @@ public static extern int SystemParametersInfo(int uAction, int uParam, string lp
     }
 }
 function Main {
-    $Index=Import-Csv -path .\ExtraToolsIndex.txt
+    $Index=Import-Csv -path .\ToolsIndex.txt
     Show-System
     $cred=Get-Credential
     New-FileStructure
     Install-OtherPrograms $Index $cred
     New-Shortcuts $Index
     Set-DesktopWallpaper -PicturePath $PSScriptRoot\Resources\wallpaper.png -Style Fit
+    Get-Content .\ToolsIndex.txt |  Out-File 'C:\Program Files\Forensic Tools\ToolList.csv'
 }
 Main
