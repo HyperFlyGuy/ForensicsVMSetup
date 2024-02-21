@@ -1,0 +1,22 @@
+Name,InstallScriptBlock,Type,ShortcutLocation
+volatility3,volatility3,,artifact
+Autopsy,autopsy,chocolatey,artifact
+SleuthKit,sleuthkit,chocolatey,artifact
+Arsenal Image Mounter,arsenalimagemounter,chocolatey,acquisition
+PhotoRec,photorec,chocolatey,artifact
+Dcode Date,dcode,chocolatey,artifact
+LibreOffice,libreoffice-fresh,chocolatey,office
+HxD,hxd,chocolatey,artifact
+Python,python,chocolatey,misc
+Git,git,chocolatey,misc
+dotnet4.5,dotnet4.5,chocolatey,misc
+dotnet4.6.1,dotnet4.6.1,chocolatey,misc
+notepad++,notepadplusplus.install,chocolatey,misc
+7zip,7zip.install,chocolatey,misc
+ExifTool,exiftool,chocolatey,artifact
+BulkExtractor,bulk-extractor,chocolatey,artifact
+Aurora-IR,aurora-ir,chocolatey,artifact
+sqlitebrowser,sqlitebrowser,chocolatey,artifact
+strings,strings,chocolatey,misc
+CyberChef,cyberchef,chocolatey,artifact
+yara,yara,chocolatey,artifact

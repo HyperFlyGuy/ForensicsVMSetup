@@ -1,33 +1,3 @@
-function refresh-path {
-    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") +
-                ";" +
-                [System.Environment]::GetEnvironmentVariable("Path","User")
-}
-function New-FileStructure {
-    #Checks to make sure our install path exists. If not it will create it.
-    $installpath='C:\Program Files\Forensic Tools\'
-    If (-not (test-path $installpath))
-    {
-        New-Item -ItemType Directory -Path $installpath
-        New-Item -ItemType Directory -Path $installpath\Acquisition
-        New-Item -ItemType Directory -Path $installpath\Parser
-        New-Item -ItemType Directory -Path $installpath\Analysis
-        New-Item -ItemType Directory -Path $installpath\Reporting
-    } 
-    else
-    {
-        Write-Host "Your install path is: $installpath"
-    }
-    if (-not (Test-Path -Path "$env:ProgramData\Chocolatey\choco.exe")) 
-    {
-        #Checks for chocolatey install if not it will install it along with boxstarter
-        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://boxstarter.org/bootstrapper.ps1')); Get-Boxstarter -Force
-    }
-    else{
-        Write-Host "Chocolatey is installed"
-    }
-}
 function Show-System {
     # Ensure execution policy is unrestricted
     Write-Host "[+] Checking if execution policy is unrestricted..."
@@ -93,70 +63,58 @@ function Show-System {
         }
     }
 }
-function Install-OtherPrograms {
-    param (
-        $Index,
-        $cred
-        )
-    ForEach ($obj in $Index) {
-         $dest = "C:\Program Files\Forensic Tools\" + $obj.Category + "\" + $obj.name
-         switch ($obj.Type)
-         {
-            'chocolatey'{
-                if (-not (Test-Path -Path "$env:ProgramData\Chocolatey\lib\$($obj.Name)")) {
-                    Write-Host "############################################################"
-                    Write-Host ("[PROGRESS:] $($obj.Name) is now going to be installed!") -ForegroundColor Black -BackgroundColor Yellow
-                    Install-BoxstarterPackage -PackageName $obj.Name -Credential $cred -DisableReboot
-                    Write-Host ("[COMPLETE:] $($obj.Name) has finished its installation!") -ForegroundColor White -BackgroundColor Green
-                }
-                else {
-                    Write-Host "############################################################"
-                    Write-Host "$($obj.Name) was already installed!!!"  -ForegroundColor White -BackgroundColor Green
-                }
-
-            }
-            'zip' {
-                if (-not (Test-Path -Path $dest)){
-                    Invoke-WebRequest -Uri $($obj.DownloadURL) -OutFile "$($dest).zip"
-                    Expand-Archive -Path "$($dest).zip" -DestinationPath "$($dest)"
-                    Remove-Item -Path "$($dest).zip"
-                }
-                else {
-                    Write-Host "############################################################"
-                    Write-Host "$($obj.Name) was already installed!!!"  -ForegroundColor DarkGreen -BackgroundColor Green
-                    Write-Host "############################################################"
-                }
-
-            }
-            'exe' {
-                if (-not (Test-Path -Path "$($dest).exe")){
-                    Invoke-WebRequest -Uri $obj.DownloadURL -OutFile "$($dest).exe"
-                }
-                else {
-                    Write-Host "############################################################"
-                    Write-Host "$($obj.Name) was already installed!!!"  -ForegroundColor White -BackgroundColor Green
-                }
-            }
-            'git' {
-                if (-not (Test-Path -Path $dest)){
-                    git clone $obj.DownloadURL $($dest)
-                }
-                else {
-                    Write-Host "############################################################"
-                    Write-Host "$($obj.Name) was already installed!!!"  -ForegroundColor DarkGreen -BackgroundColor Green
-                    Write-Host "############################################################"
-                }
-                }
-            'manual' {
-                Write-Host "############################################################"
-                Write-Host ("Installation for " + $obj.Name + " is manual. Please visit " + $obj.DownloadURL + " and fill out the form.")
-                Write-Host "############################################################"}
-            default {Write-Warning "Unsupported program type: " + $obj.Type}
-         }
-         refresh-path
-    }
-    .\Get-ZimmermanTools.ps1 -Dest 'C:\Program Files\Forensic Tools\Analysis'
+function New-FileStructure {
+        #Checks to make sure our install path exists. If not it will create it.
+        $installpath="C:\Users\User\DFIR Tools\"
+        If (-not (test-path $installpath))
+        {
+            New-Item -ItemType Directory -Path $installpath
+            New-Item -ItemType Directory -Path "$installpath\Acquisition"
+            New-Item -ItemType Directory -Path "$installpath\Artifact Tools"
+            New-Item -ItemType Directory -Path "$installpath\NTFS Tools"
+            New-Item -ItemType Directory -Path "$installpath\Reporting"
+        } 
+        else
+        {
+            Write-Host "Your install path is: $installpath"
+        }
+        if (-not (Test-Path -Path "$env:ProgramData\Chocolatey\choco.exe")) 
+        {
+            #Checks for chocolatey install if not it will install it along with boxstarter
+            Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+            Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://boxstarter.org/bootstrapper.ps1')); Get-Boxstarter -Force
+        }
+        else
+        {
+            Write-Host "Chocolatey is installed"
+        }   
 }
+function refresh-path {
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") +
+                ";" +
+                [System.Environment]::GetEnvironmentVariable("Path","User")
+}
+function Invoke-Install {
+    param (
+    $Index,
+    $cred
+    )
+    ForEach ($obj in $Index) {
+            if (-not (Test-Path -Path "$env:ProgramData\Chocolatey\lib\$($obj.Name)")) {
+                Write-Host "############################################################"
+                Write-Host ("[PROGRESS:] $($obj.Name) is now going to be installed!") -ForegroundColor Black -BackgroundColor Yellow
+                Install-BoxstarterPackage -PackageName $obj.InstallScriptBlock -Credential $cred -DisableReboot
+                Write-Host ("[COMPLETE:] $($obj.Name) has finished its installation!") -ForegroundColor White -BackgroundColor Green
+            }
+            else {
+                Write-Host "############################################################"
+                Write-Host "$($obj.Name) was already installed!!!"  -ForegroundColor White -BackgroundColor Green
+            }
+        }
+    .\Get-ZimmermanTools.ps1 -Dest "C:\Users\User\DFIR Tools\Artifact Tools"
+}
+
+#NEEDS TO BE FIXED
 function New-Shortcuts {
     param (
         $Index
@@ -239,14 +197,15 @@ public static extern int SystemParametersInfo(int uAction, int uParam, string lp
         $null = [Win32Functions.Win32SystemParametersInfo]::SystemParametersInfo($Action_SetDeskWallpaper, 0, $PicturePath, ($Action_UpdateIniFile -bor $Action_SendWinIniChangeEvent))
     }
 }
+
 function Main {
-    $Index=Import-Csv -path .\ToolsIndex.txt
-    Show-System
+    $Index=Import-Csv -path .\InstallIndex.csv
     $cred=Get-Credential
+    Show-System
     New-FileStructure
-    Install-OtherPrograms $Index $cred
-    New-Shortcuts $Index
+    Invoke-Install $Index $cred
+    #New-Shortcuts $Index
     Set-DesktopWallpaper -PicturePath $PSScriptRoot\Resources\wallpaper.png -Style Fit
-    Get-Content .\ToolsIndex.txt |  Out-File 'C:\Program Files\Forensic Tools\ToolList.csv'
+    #Get-Content .\ToolsIndex.txt |  Out-File 'C:\Program Files\Forensic Tools\ToolList.csv'
 }
 Main

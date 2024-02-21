@@ -18,7 +18,6 @@ Step Four:
 -----------------------------------------------------------------------
 
 Development To Do's:
--Need to install Shadow explorer, winprefetch, esedatabaseviewer anothe-r way besides Chocolatey. It causes the script to hang
--Verify that all the programs work and if any further installation is required. Mainly with the Git Repos
+Need to fix the shortcut functionality
 -----------------------------------------------------------------------
 
