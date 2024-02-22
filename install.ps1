@@ -119,22 +119,21 @@ function New-Shortcuts {
     param (
         $Index
     )
+    $DesktopPath = [Environment]::GetFolderPath("Desktop")
+    $WScriptShell = New-Object -ComObject WScript.Shell
+    $Shortcut = $WScriptShell.CreateShortcut("$DesktopPath\Forensic Tools.lnk")
+    $Shortcut.TargetPath = "C:\Users\User\DFIR Tools\"
+    $Shortcut.Save()
     foreach($obj in $Index){
-        if($obj.Type -eq "chocolatey" -and ($obj.Category -eq "Acquisition" -or $obj.Category -eq "Parser" -or $obj.Category -eq "Analysis" -or $obj.Category -eq "Reporting")){
-            $ShortcutFile = "C:\Program Files\Forensic Tools\" + $obj.Category + "\" + $obj.name + ".lnk"
-            $TargetFile = $obj.InstallPath
+        if($obj.InstallLocationdesktop -ne "desktop" -and $obj.InstallLocationdesktop -ne "path" ){
+            $ShortcutFile = "C:\Users\User\DFIR Tools\" + $obj.ShortcutLocation + "\" + $obj.name + ".lnk"
+            $TargetFile = $obj.InstallLocationdesktop
             $WScriptShell = New-Object -ComObject WScript.Shell
             $Shortcut = $WScriptShell.CreateShortcut($ShortcutFile)
             $Shortcut.TargetPath = $TargetFile
             $Shortcut.Save()
         }
-
     }
-    $DesktopPath = [Environment]::GetFolderPath("Desktop")
-    $WScriptShell = New-Object -ComObject WScript.Shell
-    $Shortcut = $WScriptShell.CreateShortcut("$DesktopPath\Forensic Tools.lnk")
-    $Shortcut.TargetPath = "C:\Program Files\Forensic Tools"
-    $Shortcut.Save()
 }
 function Set-DesktopWallpaper {
     <#
@@ -204,8 +203,7 @@ function Main {
     Show-System
     New-FileStructure
     Invoke-Install $Index $cred
-    #New-Shortcuts $Index
+    New-Shortcuts $Index
     Set-DesktopWallpaper -PicturePath $PSScriptRoot\Resources\wallpaper.png -Style Fit
-    #Get-Content .\ToolsIndex.txt |  Out-File 'C:\Program Files\Forensic Tools\ToolList.csv'
 }
 Main
