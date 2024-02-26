@@ -1,6 +1,6 @@
-MemprocFS,"Invoke-WebRequest -URI https://github.com/ufrisk/MemProcFS/releases/download/v5.8/MemProcFS_files_and_binaries_v5.8.25-win_x64-20240214.zip -OutFile memproc.zip; Expand-Archive -Path memproc.zip -DestinationPath '$dest/Artifact Tools/MemprocFS'; Remove-Item memproc.zip"
-Sysinternals,winget install sysinternals --accept-package-agreements,powershell
-Browsing History View,"Invoke-WebRequest -URI https://www.nirsoft.net/utils/browsinghistoryview-x64.zip -OutFile browsinghistoryview.zip; Expand-Archive -Path browsinghistoryview.zip -DestinationPath '$dest/Artifact Tools/BrowsingHistoryView'; Remove-Item browsinghistoryview.zip",powershell,artifact
+MemprocFS,"Invoke-WebRequest -URI "https://github.com/ufrisk/MemProcFS/releases/download/v5.8/MemProcFS_files_and_binaries_v5.8.25-win_x64-20240221.zip" -OutFile memproc.zip; Expand-Archive -Path memproc.zip -DestinationPath "C:\Users\User\DFIR Tools\Artifact Tools\MemprocFS"; Remove-Item memproc.zip"
+Sysinternals,winget install sysinternals --source msstore --accept-package-agreements,powershell
+Browsing History View,"Invoke-WebRequest -URI https://www.nirsoft.net/utils/browsinghistoryview-x64.zip -OutFile browsinghistoryview.zip; Expand-Archive -Path browsinghistoryview.zip -DestinationPath "C:\Users\User\DFIR Tools\Artifact Tools\BrowsingHistoryView"; Remove-Item browsinghistoryview.zip",powershell,artifact
 FTK Imager,https://go.exterro.com/l/43312/2023-05-03/fc4b78,manual,acquisition
 Event Log Explorer,https://eventlogxp.com/download.php,,artifact
 Gkape,TBD

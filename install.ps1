@@ -113,7 +113,6 @@ function Invoke-Install {
         }
     .\Get-ZimmermanTools.ps1 -Dest "C:\Users\User\DFIR Tools\Artifact Tools"
 }
-
 #NEEDS TO BE FIXED
 function New-Shortcuts {
     param (
@@ -196,7 +195,6 @@ public static extern int SystemParametersInfo(int uAction, int uParam, string lp
         $null = [Win32Functions.Win32SystemParametersInfo]::SystemParametersInfo($Action_SetDeskWallpaper, 0, $PicturePath, ($Action_UpdateIniFile -bor $Action_SendWinIniChangeEvent))
     }
 }
-
 function Main {
     $Index=Import-Csv -path .\InstallIndex.csv
     $cred=Get-Credential
